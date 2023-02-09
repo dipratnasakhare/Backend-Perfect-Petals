@@ -24,36 +24,12 @@ app.use("/Lavender_Gifts",LavenderGifts)
 app.use("/Birthday_Flowers",BirthdayFlowers)
 
 app.use("/User_Cart_Data", UserCartData)
-// app.use("/Lilies",Lilies)
-// app.use("/Gardenia_Plants",GardeniaPlants)
-// app.use("/Alstroemeria",Alstroemeria)
-// app.use("/Exotic",Exotic)
-// app.use("/Sweet_Flower",SweetFlower)
-// app.use("/Blue",Blue)
-// app.use("/Green",Green)
-// app.use("/Red",Red)
-// app.use("/Purple",Purple)
-// app.use("/Bright",Bright)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 app.get("/", (req, res) => {
     res.send("Welcome To Backend")
 })
 app.use(express.json());
-app.use("/user",UserAuthRoutes)
 
 
 app.listen(process.env.MONGOOSE_PORT_SERVER, async ()=> {
