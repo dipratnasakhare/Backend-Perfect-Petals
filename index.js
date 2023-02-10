@@ -25,6 +25,7 @@ app.use("/Birthday_Flowers",BirthdayFlowers)
 
 app.use("/User_Cart_Data", UserCartData)
 
+app.use("/user",UserAuthRoutes)
 
 app.get("/", (req, res) => {
     res.send("Welcome To Backend")
