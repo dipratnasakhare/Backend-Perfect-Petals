@@ -17,8 +17,7 @@ const { ModelGreen } = require("../models/Green.models");
 const { ModelBlue } = require("../models/Blue.models");
 
 ValentineDay.get("/", async (req, res) => {
-  const { page = 1, limit = 8 } = req.query;
-
+  const { page = 1, limit = 20 } = req.query;
   try {
     let length = await ModelValentineDay.find();
     let valentine = await ModelValentineDay.find()
@@ -30,7 +29,64 @@ ValentineDay.get("/", async (req, res) => {
     });
   } catch (err) {
     console.log(err, "err line 20");
-    res.status(200).send({ msg: err, status: "error" });
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
+  }
+});
+
+ValentineDay.post("/edit", async (req, res) => {
+  const { ProductName, ProductPrice, productId } = req.body;
+  try {
+    await ModelValentineDay.updateOne(
+      { _id: productId },
+      { $set: { Price: ProductPrice } }
+    );
+    let valentine = await ModelValentineDay.updateOne(
+      { _id: productId },
+      { $set: { Name: ProductName } }
+    );
+    console.log(valentine);
+    res.send({ valentine });
+  } catch (err) {
+    console.log(err, "err line 20");
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
+  }
+});
+
+ValentineDay.post("/comment", async (req, res) => {
+  const { ProductId } = req.body;
+  try {
+    let valentine = await ModelValentineDay.updateOne(
+      { _id: ProductId },
+      { $push: { Comment: req.body } }
+    );
+    // let valentine = await ModelValentineDay.updateMany({$set:{Rating:0}})
+    // let vaslentine = await ModelValentineDay.updateMany({$set:{Like:0}})
+    console.log(valentine, ProductId);
+    res.send({ msg: "Comment is added", status: "success" });
+  } catch (err) {
+    console.log(err, "err line 20");
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
+  }
+});
+
+// to get single product
+
+ValentineDay.post("/single-product", async (req, res) => {
+  const { ProductId } = req.body;
+  try {
+    let valentine = await ModelValentineDay.find({ _id: ProductId });
+    res.send({ data: valentine[0] });
+  } catch (err) {
+    console.log(err, "err line 20");
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
   }
 });
 
@@ -44,11 +100,13 @@ ValentineDay.get("/Sunflowers", async (req, res) => {
     let Sunflowers = await Modelsunflowers.find()
       .limit(limit * 1)
       .skip((page - 1) * limit);
-      
-    res.send({ Sunflowers, totalPages: Math.ceil(length.length / limit)});
+
+    res.send({ Sunflowers, totalPages: Math.ceil(length.length / limit) });
   } catch (err) {
     console.log(err, "err line 20");
-    res.status(200).send({ msg: err, status: "error" });
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
   }
 });
 
@@ -56,15 +114,17 @@ ValentineDay.get("/Lilies", async (req, res) => {
   const { page = 1, limit = 8 } = req.query;
 
   try {
-    let length =  await ModelLilies.find();
+    let length = await ModelLilies.find();
     let Lilies = await ModelLilies.find()
-    .limit(limit * 1)
-    .skip((page - 1) * limit);
-    
-  res.send({ Lilies, totalPages: Math.ceil(length.length / limit)});
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    res.send({ Lilies, totalPages: Math.ceil(length.length / limit) });
   } catch (err) {
     console.log(err, "err line 20");
-    res.status(200).send({ msg: err, status: "error" });
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
   }
 });
 
@@ -72,15 +132,17 @@ ValentineDay.get("/Exotic", async (req, res) => {
   const { page = 1, limit = 8 } = req.query;
 
   try {
-    let length =  await ModelExotic.find();
+    let length = await ModelExotic.find();
     let Exotic = await ModelExotic.find()
-    .limit(limit * 1)
-    .skip((page - 1) * limit);
-    
-   res.send({ Exotic, totalPages: Math.ceil(length.length / limit)});
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    res.send({ Exotic, totalPages: Math.ceil(length.length / limit) });
   } catch (err) {
     console.log(err, "err line 20");
-    res.status(200).send({ msg: err, status: "error" });
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
   }
 });
 
@@ -88,15 +150,17 @@ ValentineDay.get("/Sweet_Flower", async (req, res) => {
   const { page = 1, limit = 8 } = req.query;
 
   try {
-    let length =  await ModelSweetFlower.find();
+    let length = await ModelSweetFlower.find();
     let Sweet_Flower = await ModelSweetFlower.find()
-    .limit(limit * 1)
-    .skip((page - 1) * limit);
-    
-   res.send({ Sweet_Flower, totalPages: Math.ceil(length.length / limit)});
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    res.send({ Sweet_Flower, totalPages: Math.ceil(length.length / limit) });
   } catch (err) {
     console.log(err, "err line 20");
-    res.status(200).send({ msg: err, status: "error" });
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
   }
 });
 
@@ -104,32 +168,35 @@ ValentineDay.get("/Bright_Flower", async (req, res) => {
   const { page = 1, limit = 8 } = req.query;
 
   try {
-    let length =  await ModelBright.find();
+    let length = await ModelBright.find();
     let Bright_Flower = await ModelBright.find()
-    .limit(limit * 1)
-    .skip((page - 1) * limit);
-    
-   res.send({ Bright_Flower, totalPages: Math.ceil(length.length / limit)});
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    res.send({ Bright_Flower, totalPages: Math.ceil(length.length / limit) });
   } catch (err) {
     console.log(err, "err line 20");
-    res.status(200).send({ msg: err, status: "error" });
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
   }
 });
 
 ValentineDay.get("/Alstroemeria", async (req, res) => {
   const { page = 1, limit = 8 } = req.query;
 
-
   try {
-    let length =  await ModelAlstroemeria.find();
+    let length = await ModelAlstroemeria.find();
     let Alstroemeria = await ModelAlstroemeria.find()
-    .limit(limit * 1)
-    .skip((page - 1) * limit);
-    
-   res.send({ Alstroemeria, totalPages: Math.ceil(length.length / limit)});
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    res.send({ Alstroemeria, totalPages: Math.ceil(length.length / limit) });
   } catch (err) {
     console.log(err, "err line 20");
-    res.status(200).send({ msg: err, status: "error" });
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
   }
 });
 
@@ -137,15 +204,17 @@ ValentineDay.get("/Gardenia_Plants", async (req, res) => {
   const { page = 1, limit = 8 } = req.query;
 
   try {
-    let length =  await ModelGardeniaPlants.find();
+    let length = await ModelGardeniaPlants.find();
     let Gardenia_Plants = await ModelGardeniaPlants.find()
-    .limit(limit * 1)
-    .skip((page - 1) * limit);
-    
-   res.send({ Gardenia_Plants, totalPages: Math.ceil(length.length / limit)});
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    res.send({ Gardenia_Plants, totalPages: Math.ceil(length.length / limit) });
   } catch (err) {
     console.log(err, "err line 20");
-    res.status(200).send({ msg: err, status: "error" });
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
   }
 });
 
@@ -155,15 +224,17 @@ ValentineDay.get("/Red", async (req, res) => {
   const { page = 1, limit = 8 } = req.query;
 
   try {
-    let length =  await ModelRed.find();
+    let length = await ModelRed.find();
     let Red = await ModelRed.find()
-    .limit(limit * 1)
-    .skip((page - 1) * limit);
-    
-   res.send({ Red, totalPages: Math.ceil(length.length / limit)});
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    res.send({ Red, totalPages: Math.ceil(length.length / limit) });
   } catch (err) {
     console.log(err, "err line 20");
-    res.status(200).send({ msg: err, status: "error" });
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
   }
 });
 
@@ -171,15 +242,17 @@ ValentineDay.get("/Purple", async (req, res) => {
   const { page = 1, limit = 8 } = req.query;
 
   try {
-    let length =  await ModelPurple.find();
+    let length = await ModelPurple.find();
     let Purple = await ModelPurple.find()
-    .limit(limit * 1)
-    .skip((page - 1) * limit);
-    
-   res.send({ Purple, totalPages: Math.ceil(length.length / limit)});
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    res.send({ Purple, totalPages: Math.ceil(length.length / limit) });
   } catch (err) {
     console.log(err, "err line 20");
-    res.status(200).send({ msg: err, status: "error" });
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
   }
 });
 
@@ -187,15 +260,17 @@ ValentineDay.get("/Green", async (req, res) => {
   const { page = 1, limit = 8 } = req.query;
 
   try {
-    let length =  await ModelGreen.find();
+    let length = await ModelGreen.find();
     let Green = await ModelGreen.find()
-    .limit(limit * 1)
-    .skip((page - 1) * limit);
-    
-   res.send({ Green, totalPages: Math.ceil(length.length / limit)});
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    res.send({ Green, totalPages: Math.ceil(length.length / limit) });
   } catch (err) {
     console.log(err, "err line 20");
-    res.status(200).send({ msg: err, status: "error" });
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
   }
 });
 
@@ -203,15 +278,17 @@ ValentineDay.get("/Blue", async (req, res) => {
   const { page = 1, limit = 8 } = req.query;
 
   try {
-    let length =  await ModelBlue.find();
+    let length = await ModelBlue.find();
     let Blue = await ModelBlue.find()
-    .limit(limit * 1)
-    .skip((page - 1) * limit);
-    
-   res.send({ Blue, totalPages: Math.ceil(length.length / limit)});
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    res.send({ Blue, totalPages: Math.ceil(length.length / limit) });
   } catch (err) {
     console.log(err, "err line 20");
-    res.status(200).send({ msg: err, status: "error" });
+    res
+      .status(200)
+      .send({ msg: "Something went wrong please try again", status: "error" });
   }
 });
 
