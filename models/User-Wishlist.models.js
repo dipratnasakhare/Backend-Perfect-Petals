@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-const UserCartData = mongoose.Schema({
+const UserWishlist = mongoose.Schema({
   UserId: { type: String },
-  UserCartData: [
+  UserWishlist: [
     {
       ImgUrl: { type: String },
       ImgUrlList: [{ type: String }],
@@ -15,6 +15,6 @@ const UserCartData = mongoose.Schema({
   ],
 });
 
-const ModelUserCartData = mongoose.model("User_Cart_Data", UserCartData);
+const ModelUserWishlist = mongoose.model("UserWishlist", UserWishlist);
 
-module.exports = { ModelUserCartData };
+module.exports = { ModelUserWishlist };
