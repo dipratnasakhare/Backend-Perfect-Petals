@@ -71,7 +71,6 @@ UserCartData.post("/delete", async (req, res) => {
     let User_Details = await ModelUserCartData.find({ UserId });
 
     User_Details = User_Details[0].UserCartData;
-
     User_Details = User_Details.filter((ele) => `${ele["_id"]}` !== `${id}`);
 
     await ModelUserCartData.updateOne(
@@ -92,7 +91,6 @@ UserCartData.post("/delete", async (req, res) => {
 
 UserCartData.post("/Delete_User_data", async (req, res) => {
   const { UserId } = req.body;
-
   try {
     let User_Details = await ModelUserCartData.deleteOne({ UserId });
 
